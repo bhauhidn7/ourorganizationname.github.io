@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayank Priyadarshi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+            color: #374151;
+            scroll-behavior: smooth;
+        }
+        .scroll-down-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .popper {
+            animation: popper 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.27) forwards;
+        }
+
+        @keyframes popper {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        /* Custom scrollbar styling for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E5E7EB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9CA3AF;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6B7280;
+        }
+        /* New sparkling animation */
+        .sparkle-animation {
+            animation: sparkle 1s ease-in-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                box-shadow: 0 0 0px #fff;
+            }
+            50% {
+                box-shadow: 0 0 10px 5px #fff;
+            }
+            100% {
+                box-shadow: 0 0 0px #fff;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- Initial Content Section -->
+    <div class="h-screen flex items-center justify-center p-4 relative">
+        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full text-center popper">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Mayank Priyadarshi</h1>
+            <p class="text-gray-600 mb-6">Welcome to my page! Scroll down to see more.</p>
+            <p class="text-gray-400 text-sm mt-8">
+                &copy; 2025 Mayank Priyadarshi
+            </p>
+        </div>
+        <div class="scroll-down-indicator text-3xl text-gray-400">
+            &#8595;
+        </div>
+    </div>
+
+    <!-- Hidden Buttons Section (appears on scroll) -->
+    <div id="options-section" class="h-screen flex items-center justify-center p-4 opacity-0 transition-opacity duration-1000">
+        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full text-center popper">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Connect with me</h2>
+            <div class="space-y-4">
+                <a href="https://www.linkedin.com/in/mayank-priyadarshi" target="_blank" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition duration-300 transform hover:scale-105 block floating">
+                    LinkedIn
+                </a>
+                <a href="https://www.instagram.com/mayankpriyadarshi" target="_blank" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-6 rounded-xl transition duration-300 transform hover:scale-105 block floating" style="animation-delay: 0.2s;">
+                    Instagram
+                </a>
+                <a href="https://wa.me/yourphonenumber" target="_blank" class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-6 rounded-xl transition duration-300 transform hover:scale-105 block floating" style="animation-delay: 0.4s;">
+                    WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const optionsSection = document.getElementById('options-section');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // Trigger when 50% of the section is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    optionsSection.classList.add('popper', 'opacity-100');
+                    optionsSection.classList.remove('opacity-0');
+                    optionsSection.querySelectorAll('.floating').forEach(btn => {
+                        btn.style.opacity = '1';
+                    });
+
+                    // Add sparkling animation to buttons
+                    document.querySelectorAll('#options-section a').forEach((button, index) => {
+                        setTimeout(() => {
+                            button.classList.add('sparkle-animation');
+                        }, index * 200); // Stagger the animation
+                    });
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(optionsSection);
+    </script>
+</body>
+</html>
